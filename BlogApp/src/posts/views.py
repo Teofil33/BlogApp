@@ -1,3 +1,12 @@
 from django.shortcuts import render
 
 # Create your views here.
+
+from .models import Post
+
+def listView(request):
+	queryset = Post.objects.all()
+	context = {
+		"posts": queryset,
+	}
+	return render(request, "list_view.html", context)
