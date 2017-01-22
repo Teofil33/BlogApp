@@ -13,6 +13,21 @@
 </head>
 <body>
 	{% include 'navbar.html' %}
+
+	{% if messages %}
+	<ul class="messages">
+		<div class='container text-center'>
+	    {% for message in messages %}
+	    <div class="alert alert-success alert-dismissable">
+		  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		 {% if "html_safe" in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+		</div>
+	    {% endfor %}
+	    </div>
+	</ul>
+	{% endif %}
+
+
 	<div class="container">
 	{% block content %}
 	{% endblock content %}

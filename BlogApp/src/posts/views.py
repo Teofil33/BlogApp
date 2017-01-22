@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
@@ -25,6 +26,7 @@ def createView(request):
 	if form.is_valid():
 		instance = form.save(commit=False)
 		instance.save()
+		messages.success(request, "Successfully Created")
 		return redirect(instance.get_absolute_url())
 	context = {
 		"title": "Post",
@@ -43,6 +45,7 @@ def updateView(request, id):
 	if form.is_valid():
 		instance = form.save(commit=False)
 		instance.save()
+		messages.success(request, "Successfully Updated")
 		return redirect(instance.get_absolute_url())
 	context = {
 		"title": instance.title,
@@ -57,6 +60,7 @@ def deleteView(request, id):
 	instance = get_object_or_404(Post, id=id)
 	if request.method == "POST":
 		instance.delete()
+		messages.success(request, "Successfully Deleted")
 		return redirect("posts:list")
 	context = {
 		"post": instance,
