@@ -26,7 +26,24 @@ def createView(request):
 		instance.save()
 		return redirect(instance.get_absolute_url())
 	context = {
+		"title": "Post",
+		"verb": "Create",
 		"form": form,
 	}
-	return render(request, "post_form.html", context)		
+	return render(request, "post_form.html", context)
+
+
+def updateView(request, id):
+	instance = Post.objects.get(id=id)
+	form = PostForm(request.POST or None, instance=instance)
+	if form.is_valid():
+		instance = form.save(commit=False)
+		instance.save()
+		return redirect(instance.get_absolute_url())
+	context = {
+		"title": instance.title,
+		"form": form,
+		"verb": "Update",
+	}
+	return render(request, "post_form.html", context)			
 

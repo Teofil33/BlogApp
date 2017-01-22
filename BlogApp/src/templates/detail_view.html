@@ -7,5 +7,6 @@
 		<h1>{{ post.title }}</h1>
 		<p>{{ post.content }}</p>
 		<p>Created: {{ post.timestamp|timesince }} ago</p>
+		<a class="btn btn-default" href="{% url 'posts:update' id=post.id %}">Edit</a>
 	</div>
 {% endblock content %}
