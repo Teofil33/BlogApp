@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
 
@@ -13,9 +13,10 @@ def listView(request):
 	return render(request, "list_view.html", context)
 
 def detailView(request, id):
-	queryset = Post.objects.get(id=id)
+	#instance = Post.objects.get(id=id)
+	instance = get_object_or_404(Post, id=id)
 	context = {
-		"post": queryset,
+		"post": instance,
 	}	
 	return render(request, "detail_view.html", context)
 
@@ -32,9 +33,12 @@ def createView(request):
 	}
 	return render(request, "post_form.html", context)
 
-
 def updateView(request, id):
-	instance = Post.objects.get(id=id)
+	instance = get_object_or_404(Post, id=id)
+	# try:
+	# 	instance = Post.objects.get(id=id)
+	# except:
+	# 	raise Http404	
 	form = PostForm(request.POST or None, instance=instance)
 	if form.is_valid():
 		instance = form.save(commit=False)
@@ -45,5 +49,20 @@ def updateView(request, id):
 		"form": form,
 		"verb": "Update",
 	}
-	return render(request, "post_form.html", context)			
+	return render(request, "post_form.html", context)	
+
+
+def deleteView(request, id):
+	#instance = Post.objects.get(id=id)
+	instance = get_object_or_404(Post, id=id)
+	if request.method == "POST":
+		instance.delete()
+		return redirect("posts:list")
+	context = {
+		"post": instance,
+	}	
+	return render(request, "confirm_delete.html", context)
+
+
+				
 

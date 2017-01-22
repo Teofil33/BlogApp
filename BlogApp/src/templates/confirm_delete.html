@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %} {{ block.super }} | Delete {{ post.title }}? {% endblock title %}
+
+{% block content %}
+	<div class="col-sm-6 col-sm-offset-3 text-center">
+		<h3>Delete {{ post.title }} ?</h3>
+		
+		<form method="POST" action=".">
+			{% csrf_token %}
+			<p class="lead">Are you sure you want to delete "{{ post.title }}"?</p>
+			<input class="btn btn-warning" type="submit" value="Delete">
+			<a class="btn btn-defaut" type="submit" href="{{ post.get_absolute_url }}">Back</a>
+		</form>
+		
+	</div>
+{% endblock content %}
