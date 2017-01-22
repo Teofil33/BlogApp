@@ -20,5 +20,5 @@ from posts.views import listView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', listView, name="list"),
+    url(r'^', include("posts.urls")),
 ]
