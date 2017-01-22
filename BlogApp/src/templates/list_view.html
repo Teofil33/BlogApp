@@ -10,6 +10,24 @@
 		<h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
 		<p>{{ post.content }}</p>
 	{% endfor %}
+	
+
+	<div class="pagination">
+    <span class="step-links">
+        {% if posts.has_previous %}
+            <a href="?{{ page_request_var }}={{ posts.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+        </span>
+
+        {% if posts.has_next %}
+            <a href="?{{ page_request_var }}={{ posts.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+	</div>
+
 	</div>
 
 {% endblock content %}	
