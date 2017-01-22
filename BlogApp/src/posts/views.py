@@ -10,3 +10,11 @@ def listView(request):
 		"posts": queryset,
 	}
 	return render(request, "list_view.html", context)
+
+def detailView(request, id):
+	queryset = Post.objects.get(id=id)
+	context = {
+		"post": queryset,
+	}	
+	return render(request, "detail_view.html", context)
+
