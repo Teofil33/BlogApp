@@ -3,12 +3,20 @@
 {% block title %} {{ block.super }} | Posts {% endblock title %}
 
 {% block content %}
-	<div class="col-sm-6 col-sm-offset-3">
+	<div class="col-sm-4 col-sm-offset-4">
 	<h2>Recent Posts</h2>
 	<hr/>
 	{% for post in posts %}
-		<h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+		<div class="thumbnail text-center">
+		<h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a> <small> {{ post.timestamp|timesince }} ago</small></h3>
+		{% if post.image %}
+		<img src="{{ post.image.url }}" class='img-responsive'>
+		<hr/>
+		{% endif %}
 		<p>{{ post.content }}</p>
+		<hr/>
+		<a class="btn btn-default" href="{{ post.get_absolute_url }}">View</a>
+		</div>
 	{% endfor %}
 	
 

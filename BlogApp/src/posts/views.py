@@ -9,7 +9,7 @@ from .forms import PostForm
 
 def listView(request):
 	queryset = Post.objects.all()
-	paginator = Paginator(queryset, 2)
+	paginator = Paginator(queryset, 5)
 	page_request_var = "page"
 	page = request.GET.get(page_request_var)
 	try:
@@ -36,7 +36,7 @@ def detailView(request, id):
 	return render(request, "detail_view.html", context)
 
 def createView(request):
-	form = PostForm(request.POST or None)
+	form = PostForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		instance = form.save(commit=False)
 		instance.save()
@@ -55,7 +55,7 @@ def updateView(request, id):
 	# 	instance = Post.objects.get(id=id)
 	# except:
 	# 	raise Http404	
-	form = PostForm(request.POST or None, instance=instance)
+	form = PostForm(request.POST or None, request.FILES or None, instance=instance)
 	if form.is_valid():
 		instance = form.save(commit=False)
 		instance.save()

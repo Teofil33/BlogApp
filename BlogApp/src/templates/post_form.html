@@ -4,8 +4,8 @@
 {% block title %} {{ block.super }} | {{ verb }} {% if title %} {{ title }} {% endif %} {% endblock title %}
 
 {% block content %}
-	<div class="col-sm-6 col-sm-offset-3">
-		<form method="POST" action=".">
+	<div class="col-sm-6 col-sm-offset-3" >
+		<form method="POST" action='' enctype='multipart/form-data'>
 		{% csrf_token %}
 		{{ form|crispy }}
 		<input class="btn btn-default btn-block" type="submit" value="{{ verb }}">
