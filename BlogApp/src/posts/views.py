@@ -1,4 +1,5 @@
 from urllib import quote_plus
+from django.db.models import Q
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -10,6 +11,13 @@ from .forms import PostForm
 
 def listView(request):
 	queryset = Post.objects.all()
+	qs = request.GET.get("q")
+	if qs:
+		queryset = queryset.filter(
+				Q(title__icontains=qs) |
+				Q(content__icontains=qs) 
+			).distinct()
+
 	paginator = Paginator(queryset, 5)
 	page_request_var = "page"
 	page = request.GET.get(page_request_var)
@@ -45,6 +53,7 @@ def createView(request):
 	form = PostForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		instance = form.save(commit=False)
+		instance.user = request.user
 		instance.save()
 		messages.success(request, "Successfully Created")
 		return redirect(instance.get_absolute_url())

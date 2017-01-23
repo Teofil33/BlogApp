@@ -5,6 +5,9 @@
 {% block content %}
 	<div class="col-sm-6 col-sm-offset-3 text-center">
 		<h1>{{ post.title }}</h1>
+		<hr/>
+		<p class="lead">Posted by {{ post.user }}</p>
+		<hr/>
 		{% if post.image %}
 			<img src="{{ post.image.url }}" class='img-responsive'>
 		{% endif %}
