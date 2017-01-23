@@ -27,9 +27,12 @@ def listView(request):
 	}
 	return render(request, "list_view.html", context)
 
-def detailView(request, id):
+def detailView(request, year, month, day, slug):
 	#instance = Post.objects.get(id=id)
-	instance = get_object_or_404(Post, id=id)
+	instance = get_object_or_404(Post, slug=slug,
+									   timestamp__year=year,
+									   timestamp__month=month,
+									   timestamp__day=day)
 	context = {
 		"post": instance,
 	}	
@@ -49,8 +52,8 @@ def createView(request):
 	}
 	return render(request, "post_form.html", context)
 
-def updateView(request, id):
-	instance = get_object_or_404(Post, id=id)
+def updateView(request, slug=None):
+	instance = get_object_or_404(Post, slug=slug)
 	# try:
 	# 	instance = Post.objects.get(id=id)
 	# except:
@@ -69,9 +72,9 @@ def updateView(request, id):
 	return render(request, "post_form.html", context)	
 
 
-def deleteView(request, id):
+def deleteView(request, slug=None):
 	#instance = Post.objects.get(id=id)
-	instance = get_object_or_404(Post, id=id)
+	instance = get_object_or_404(Post, slug=slug)
 	if request.method == "POST":
 		instance.delete()
 		messages.success(request, "Successfully Deleted")
