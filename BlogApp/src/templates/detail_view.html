@@ -3,14 +3,31 @@
 {% block title %} {{ block.super }} | {{ post.title }} {% endblock title %}
 
 {% block content %}
-	<div class="col-sm-8 col-sm-offset-2 text-center">
+	<div class="col-sm-6 col-sm-offset-3 text-center">
 		<h1>{{ post.title }}</h1>
 		{% if post.image %}
 			<img src="{{ post.image.url }}" class='img-responsive'>
 		{% endif %}
 		<hr/>
+			<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
+			<i class="fa fa-facebook-official fa-3x" aria-hidden="true"></i>
+			</a>
+			<a href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}">
+			<i class="fa fa-twitter fa-3x" aria-hidden="true"></i>
+			</a>
+			<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'>
+			<a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ instance.title }}&summary={{ share_string }}&source={{ request.build_absolute_uri }}">
+			<i class="fa fa-linkedin fa-3x" aria-hidden="true"></i>
+			</a>
+			<a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&title={{ share_string }}.">
+			<i class="fa fa-reddit fa-3x" aria-hidden="true"></i>	
+			</a>
+			<a data-pin-do="buttonBookmark" href="//www.pinterest.com/pin/create/button/">/>
+			</a>
+		<hr/>
 		<p>{{ post.content }}</p>
 		<p>Created: {{ post.timestamp|timesince }} ago</p>
+		<hr/>
 		<a class="btn btn-default" href="{% url 'posts:delete' slug=post.slug %}">Delete</a>
 		<a class="btn btn-default" href="{% url 'posts:update' slug=post.slug %}">Edit</a>
 	</div>
