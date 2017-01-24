@@ -31,6 +31,8 @@
 		<p>{{ post.content }}</p>
 		<p>Created: {{ post.timestamp|timesince }} ago</p>
 		<hr/>
+			{{ post.comments.all }}
+		<hr/>
 		<a class="btn btn-default" href="{% url 'posts:delete' slug=post.slug %}">Delete</a>
 		<a class="btn btn-default" href="{% url 'posts:update' slug=post.slug %}">Edit</a>
 	</div>

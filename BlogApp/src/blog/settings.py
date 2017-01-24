@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # Third Party Library
     'crispy_forms',
     # Our Created Apps
+    'comments',
     'posts',
 ]
 
