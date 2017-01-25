@@ -31,8 +31,18 @@
 		<p>{{ post.content }}</p>
 		<p>Created: {{ post.timestamp|timesince }} ago</p>
 		<hr/>
-			{{ post.comments.all }}
-		<hr/>
+		    <div>
+		        <p class='lead'>Comments</p>
+		        {% for comment in comments %}
+		            <div class=''>
+		                {{ comment.content }}
+		                <br/>
+		                <small>via {{ comment.user }} | {{ comment.timestamp|timesince }} ago</small>
+		                <hr/>
+		            </div>
+
+		        {% endfor %}
+		    </div>
 		<a class="btn btn-default" href="{% url 'posts:delete' slug=post.slug %}">Delete</a>
 		<a class="btn btn-default" href="{% url 'posts:update' slug=post.slug %}">Edit</a>
 	</div>

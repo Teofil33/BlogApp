@@ -1,11 +1,13 @@
 from urllib import quote_plus
 from django.db.models import Q
 from django.contrib import messages
+from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
+from comments.models import Comment
 from .models import Post
 from .forms import PostForm
 
@@ -43,9 +45,14 @@ def detailView(request, year, month, day, slug):
 									   timestamp__month=month,
 									   timestamp__day=day)
 	share_string = quote_plus(instance.content)
+	content_type = ContentType.objects.get_for_model(Post)
+	obj_id = instance.id
+	comments = Comment.objects.filter(content_type=content_type, object_id=obj_id)
+
 	context = {
 		"post": instance,
 		"share_string": share_string,
+		"comments": comments,
 	}	
 	return render(request, "detail_view.html", context)
 
