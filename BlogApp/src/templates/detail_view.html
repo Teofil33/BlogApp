@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %} {{ block.super }} | {{ post.title }} {% endblock title %}
 
@@ -33,13 +34,15 @@
 		<hr/>
 		    <div>
 		        <p class='lead'>Comments</p>
+		        <form method="POST" action="">{% csrf_token %}
+		        	{{ comment_form|crispy }}
+		        	<input type="submit" value="Comment" class="btn btn-default">
+		        </form>
 		        {% for comment in comments %}
-		            <div class=''>
-		                {{ comment.content }}
-		                <br/>
-		                <small>via {{ comment.user }} | {{ comment.timestamp|timesince }} ago</small>
-		                <hr/>
-		            </div>
+		            <blockquote class="text-left">
+			          <p>{{ comment.content }}</p>
+			          <footer>via {{ comment.user }} | {{ comment.timestamp|timesince }} ago</footer>
+			        </blockquote>
 
 		        {% endfor %}
 		    </div>

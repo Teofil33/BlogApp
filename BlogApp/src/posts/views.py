@@ -7,6 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
+from comments.forms import CommentForm
 from comments.models import Comment
 from .models import Post
 from .forms import PostForm
@@ -45,14 +46,31 @@ def detailView(request, year, month, day, slug):
 									   timestamp__month=month,
 									   timestamp__day=day)
 	share_string = quote_plus(instance.content)
-	content_type = ContentType.objects.get_for_model(Post)
-	obj_id = instance.id
-	comments = Comment.objects.filter(content_type=content_type, object_id=obj_id)
-
+	initial_data = {
+		"content_type": instance.get_content_type,
+		"object_id": instance.id
+	}
+	form = CommentForm(request.POST or None, initial=initial_data)
+	if form.is_valid():
+		c_type = form.cleaned_data.get("content_type")
+		content_type = ContentType.objects.get(model=c_type)
+		obj_id = form.cleaned_data.get('object_id')
+		content_data = form.cleaned_data.get("content")
+		new_comment, created = Comment.objects.get_or_create(
+										user = request.user,
+										content_type = content_type,
+										object_id = obj_id,
+										content = content_data
+									)
+	# content_type = ContentType.objects.get_for_model(Post)
+	# obj_id = instance.id
+	# comments = Comment.objects.filter(content_type=content_type, object_id=obj_id)	
+	comments = instance.comments
 	context = {
 		"post": instance,
 		"share_string": share_string,
 		"comments": comments,
+		"comment_form": form,
 	}	
 	return render(request, "detail_view.html", context)
 
