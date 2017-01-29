@@ -1,14 +1,12 @@
 from __future__ import unicode_literals
 from django.conf import settings
 from django.core.urlresolvers import reverse
-#from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import pre_save
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 
 # Create your models here.
-#from comments.models import Comment
 
 def upload_location(instance, filename):
 	return "%s/%s" %(instance.id, filename)
@@ -41,19 +39,7 @@ class Post(models.Model):
 		return reverse("posts:detail", args=[self.timestamp.year, 
             self.timestamp.strftime('%m'),
             self.timestamp.strftime('%d'),
-            self.slug])
-
-	# @property
-	# def comments(self):
-	# 	instance = self
-	# 	qs = Comment.objects.filter_by_instance(instance)
-	# 	return qs	
-		
-	# @property
-	# def get_content_type(self):
-	# 	instance = self
-	# 	content_type = ContentType.objects.get_for_model(instance.__class__)
-	# 	return content_type	
+            self.slug])	
 
 
 def create_slug(instance, new_slug=None):

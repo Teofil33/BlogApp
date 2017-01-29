@@ -8,5 +8,7 @@ urlpatterns = [
     #url(r'^(?P<slug>[\w-]+)/$', detailView, name='detail'),
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[-\w]+)/$', detailView, name="detail"),
     url(r'^(?P<slug>[\w-]+)/edit/$', updateView, name='update'),
-    url(r'^(?P<slug>[\w-]+)/delete/$', deleteView, name='delete'), 
+    #url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[-\w]+)/edit/$', updateView, name="update"),
+    url(r'^(?P<slug>[\w-]+)/delete/$', deleteView, name='delete'),
+    #url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[-\w]+)/delete/$', deleteView, name="delete"), 
 ]

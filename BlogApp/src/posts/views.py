@@ -39,41 +39,6 @@ def listView(request):
 	}
 	return render(request, "list_view.html", context)
 
-# def detailView(request, year, month, day, slug):
-# 	#instance = Post.objects.get(id=id)
-# 	instance = get_object_or_404(Post, slug=slug,
-# 									   timestamp__year=year,
-# 									   timestamp__month=month,
-# 									   timestamp__day=day)
-# 	share_string = quote_plus(instance.content)
-# 	initial_data = {
-# 		"content_type": instance.get_content_type,
-# 		"object_id": instance.id
-# 	}
-# 	form = CommentForm(request.POST or None, initial=initial_data)
-# 	if form.is_valid():
-# 		c_type = form.cleaned_data.get("content_type")
-# 		content_type = ContentType.objects.get(model=c_type)
-# 		obj_id = form.cleaned_data.get('object_id')
-# 		content_data = form.cleaned_data.get("content")
-# 		new_comment, created = Comment.objects.get_or_create(
-# 										user = request.user,
-# 										content_type = content_type,
-# 										object_id = obj_id,
-# 										content = content_data
-# 									)
-# 	# content_type = ContentType.objects.get_for_model(Post)
-# 	# obj_id = instance.id
-# 	# comments = Comment.objects.filter(content_type=content_type, object_id=obj_id)	
-# 	comments = instance.comments
-# 	context = {
-# 		"post": instance,
-# 		"share_string": share_string,
-# 		"comments": comments,
-# 		"comment_form": form,
-# 	}	
-# 	return render(request, "detail_view.html", context)
-
 def detailView(request, year, month, day, slug):
 	instance = get_object_or_404(Post, slug=slug,
 									   timestamp__year=year,
@@ -92,9 +57,9 @@ def detailView(request, year, month, day, slug):
 			new_instance.parent = parent_comment
 		new_instance.user = request.user
 		new_instance.post = instance
-		#instance.content = comment_form.cleaned_data.get("content")
+		#new_instance.content = comment_form.cleaned_data.get("content")
 		new_instance.save()
-		return redirect(instance.get_absolute_url())
+		return redirect(instance.get_absolute_url())	
 	context = {
 		"post": instance,
 		"share_string": share_string,
@@ -120,12 +85,13 @@ def createView(request):
 	}
 	return render(request, "post_form.html", context)
 
-def updateView(request, slug=None):
+#def updateView(request, year, month, day, slug=None):
+def updateView(request, slug):
 	instance = get_object_or_404(Post, slug=slug)
-	# try:
-	# 	instance = Post.objects.get(id=id)
-	# except:
-	# 	raise Http404	
+	# instance = get_object_or_404(Post, slug=slug,
+	# 							   timestamp__year=year,
+	# 							   timestamp__month=month,
+	# 							   timestamp__day=day)	
 	form = PostForm(request.POST or None, request.FILES or None, instance=instance)
 	if form.is_valid():
 		instance = form.save(commit=False)
@@ -139,10 +105,33 @@ def updateView(request, slug=None):
 	}
 	return render(request, "post_form.html", context)	
 
+# Trying to make deleteView, so it can have date in it's url
+#def deleteView(request, year, month, day, slug=None):
+	# instance = get_object_or_404(Post, slug=slug,
+	# 							   timestamp__year=year,
+	# 							   timestamp__month=month,
+	# 							   timestamp__day=day)
 
-def deleteView(request, slug=None):
-	#instance = Post.objects.get(id=id)
-	instance = get_object_or_404(Post, slug=slug)
+	# if request.method == "POST":
+	# 	instance.delete()
+	# 	messages.success(request, "Successfully Deleted")
+	# 	return redirect("posts:list")
+
+	# year = instance.timestamp.year
+	# month = instance.timestamp.year
+	# day = instance.timestamp.year
+
+	# 	context = {
+	# 	"year": year,
+	# 	"month": month,
+	# 	"day": day,
+	# 	"post": instance,
+	# }
+
+	#return render(request, "confirm_delete.html", context)
+
+def deleteView(request, slug):
+	instance = get_object_or_404(Post, slug=slug)	
 	if request.method == "POST":
 		instance.delete()
 		messages.success(request, "Successfully Deleted")

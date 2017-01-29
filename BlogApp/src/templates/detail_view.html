@@ -5,7 +5,7 @@
 
 {% block content %}
 	<div class="col-sm-6 col-sm-offset-3 text-center">
-		<h1>{{ post.title }}</h1>
+		<h1>{{ post.title }} {{ year }}</h1>
 		<hr/>
 		<p class="lead">Posted by {{ post.user }}</p>
 		<hr/>
@@ -66,7 +66,10 @@
 		        {% endfor %}
 		    </div>
 		    <hr/>
-		<a class="btn btn-default" href="{% url 'posts:delete' slug=post.slug %}">Delete</a>
-		<a class="btn btn-default" href="{% url 'posts:update' slug=post.slug %}">Edit</a>
+		<a class="btn btn-default" href="{% url 'posts:delete' slug=post.slug  %}">Delete</a>
+		<a class="btn btn-default" href="{% url 'posts:update' slug=post.slug  %}">Edit</a>
+
+
+		
 	</div>
 {% endblock content %}
