@@ -39,13 +39,33 @@
 		        	<input type="submit" value="Comment" class="btn btn-default">
 		        </form>
 		        {% for comment in comments %}
+
+		        	{% if comment.is_parent %}
 		            <blockquote class="text-left">
 			          <p>{{ comment.content }}</p>
 			          <footer>via {{ comment.user }} | {{ comment.timestamp|timesince }} ago</footer>
+			          <hr/>
+			          <form method="POST" action=".">
+						{% csrf_token %}
+						<input type="hidden" name="parent_id" value="{{ comment.id }}">
+						{{ comment_form|crispy }}
+						<input class="btn btn-default" type="submit" value="Reply">
+					  </form>
+					  <hr/>
+			          {% if comment.get_children %}
+				  	  {% for child in comment.get_children %}	
+					  <blockquote>
+					  <p>{{ child.content }}</p>
+					  <footer>Via: <cite title="Source Title">{{ child.user }} | {{ child.timestamp|timesince }} ago</cite></footer>
+					  </blockquote>
+					{% endfor %}
+					{% endif %}
 			        </blockquote>
+			        {% endif %}
 
 		        {% endfor %}
 		    </div>
+		    <hr/>
 		<a class="btn btn-default" href="{% url 'posts:delete' slug=post.slug %}">Delete</a>
 		<a class="btn btn-default" href="{% url 'posts:update' slug=post.slug %}">Edit</a>
 	</div>
