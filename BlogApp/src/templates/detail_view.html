@@ -43,7 +43,8 @@
 		        	{% if comment.is_parent %}
 		            <blockquote class="text-left">
 			          <p>{{ comment.content }}</p>
-			          <footer>via {{ comment.user }} | {{ comment.timestamp|timesince }} ago</footer>
+			          <footer>via {{ comment.user }} | {{ comment.timestamp|timesince }} ago | <a class='comment-reply-btn' href='#'>Reply</a></footer>
+			          <div class='comment-reply' style="display: none">
 			          <hr/>
 			          <form method="POST" action=".">
 						{% csrf_token %}
@@ -51,6 +52,7 @@
 						{{ comment_form|crispy }}
 						<input class="btn btn-default" type="submit" value="Reply">
 					  </form>
+					  </div>
 					  <hr/>
 			          {% if comment.get_children %}
 				  	  {% for child in comment.get_children %}	
